@@ -1,6 +1,22 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [logoColor, setLogoColor] = useState("green");
+
+  const colorOptions = [
+    { name: "Verde", value: "green", file: "/logo_green.svg", label: "VERDE" },
+    { name: "Azul", value: "blue", file: "/logo_blue.svg", label: "AZUL" },
+    { name: "Rojo", value: "red", file: "/logo_red.svg", label: "ROJO" },
+    { name: "Amarillo", value: "yellow", file: "/logo_yellow.svg", label: "AMARILLO" },
+    { name: "Púrpura", value: "purple", file: "/logo_purple.svg", label: "PÚRPURA" },
+    { name: "Cian", value: "cyan", file: "/logo_cyan.svg", label: "CIAN" }
+  ];
+
+  const currentLogo = colorOptions.find(c => c.value === logoColor) || colorOptions[0];
+
   return (
     <div className="font-mono bg-black text-green-400 min-h-screen p-4">
       {/* Retro Computer Window Header */}
@@ -11,79 +27,61 @@ export default function Home() {
             <div className="w-3 h-3 bg-yellow-500 border border-gray-500"></div>
             <div className="w-3 h-3 bg-green-500 border border-gray-500"></div>
           </div>
-          <div className="text-green-400 text-sm font-bold">CRUCIAL_TERMINAL.exe</div>
+          <div className="text-green-400 text-sm font-bold">GENERIC_TERMINAL.exe</div>
           <div className="w-4 h-4"></div>
         </div>
         
         {/* Main Content Area */}
         <div className="p-6 bg-gray-900 border-2 border-gray-600">
-          <div className="text-center mb-8">
-            <Image
-              className="filter brightness-0 invert"
-              src="/logo_crucial.svg"
-              alt="Crucial Logo"
-              width={200}
-              height={42}
-              priority
-            />
+          {/* Logo Centrado y Más Grande */}
+          <div className="flex justify-center items-center mb-12">
+            <div className="transition-all duration-300 transform hover:scale-105">
+              <Image
+                src={currentLogo.file}
+                alt={`Generic Logo - ${currentLogo.name}`}
+                width={400}
+                height={200}
+                priority
+                className="w-auto h-auto max-w-full"
+              />
+            </div>
           </div>
 
           {/* Retro Terminal Text */}
           <div className="space-y-4 mb-8">
             <div className="text-green-400 font-mono text-sm">
-              <span className="text-yellow-400">$</span> Welcome to Crucial Terminal v1.0
+              <span className="text-yellow-400">$</span> Welcome to Generic Terminal v1.0
             </div>
             <div className="text-green-400 font-mono text-sm">
-              <span className="text-yellow-400">$</span> System initialized successfully
+              <span className="text-yellow-400">$</span> Logo color system initialized
             </div>
             <div className="text-green-400 font-mono text-sm">
-              <span className="text-yellow-400">$</span> Ready for user input...
+              <span className="text-yellow-400">$</span> Select a color to change logo appearance...
             </div>
           </div>
 
-          {/* Command List */}
+          {/* Color Selection Buttons */}
           <div className="bg-black border border-green-400 p-4 mb-8">
-            <div className="text-green-400 font-bold mb-3">Available Commands:</div>
-            <ol className="font-mono text-sm text-green-400 space-y-2">
-              <li className="flex items-center">
-                <span className="text-yellow-400 mr-2">1.</span>
-                <span>Edit source code at </span>
-                <code className="bg-gray-800 text-yellow-400 px-2 py-1 border border-green-400 ml-2">
-                  src/app/page.tsx
-                </code>
-              </li>
-              <li className="flex items-center">
-                <span className="text-yellow-400 mr-2">2.</span>
-                <span>Save changes and reload</span>
-              </li>
-            </ol>
+            <div className="text-green-400 font-bold mb-3">Color Selection Commands:</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {colorOptions.map((color) => (
+                <button
+                  key={color.value}
+                  onClick={() => setLogoColor(color.value)}
+                  className={`border-2 border-current ${getColorClass(color.value)} bg-black transition-all flex items-center justify-center hover:bg-opacity-20 hover:scale-105 font-mono text-sm h-12 px-4 w-full`}
+                >
+                  [{color.label}]
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Action Buttons - Square Borders */}
-          <div className="flex gap-4 items-center flex-col sm:flex-row">
-            <a
-              className="border-2 border-green-400 bg-black text-green-400 transition-all flex items-center justify-center gap-2 hover:bg-green-400 hover:text-black font-mono text-sm h-12 px-6 w-full sm:w-auto"
-              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-              className="filter brightness-0 invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-              [DEPLOY_NOW]
-            </a>
-            <a
-              className="border-2 border-blue-400 bg-black text-blue-400 transition-all flex items-center justify-center gap-2 hover:bg-blue-400 hover:text-black font-mono text-sm h-12 px-6 w-full sm:w-auto"
-              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              [READ_DOCS]
-            </a>
+          {/* Current Color Display */}
+          <div className="bg-black border border-green-400 p-4 mb-8">
+            <div className="text-green-400 font-bold mb-2">Current Logo Color:</div>
+            <div className={`${getColorClass(currentLogo.value)} font-mono text-lg font-bold`}>
+              {currentLogo.name.toUpperCase()}
+            </div>
           </div>
         </div>
       </div>
@@ -94,55 +92,8 @@ export default function Home() {
           <div className="text-green-400 text-sm font-bold">SYSTEM_NAVIGATION</div>
         </div>
         <div className="p-4 bg-gray-900">
-          <div className="flex gap-6 flex-wrap items-center justify-center">
-            <a
-              className="flex items-center gap-2 text-blue-400 hover:text-green-400 transition-colors font-mono text-sm border border-transparent hover:border-blue-400 px-2 py-1"
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="/file.svg"
-                alt="File icon"
-                width={16}
-                height={16}
-                className="filter brightness-0 invert"
-              />
-              [LEARN]
-            </a>
-            <a
-              className="flex items-center gap-2 text-blue-400 hover:text-green-400 transition-colors font-mono text-sm border border-transparent hover:border-blue-400 px-2 py-1"
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="/window.svg"
-                alt="Window icon"
-                width={16}
-                height={16}
-                className="filter brightness-0 invert"
-              />
-              [EXAMPLES]
-            </a>
-            <a
-              className="flex items-center gap-2 text-blue-400 hover:text-green-400 transition-colors font-mono text-sm border border-transparent hover:border-blue-400 px-2 py-1"
-              href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="/globe.svg"
-                alt="Globe icon"
-                width={16}
-                height={16}
-                className="filter brightness-0 invert"
-              />
-              [NEXTJS.ORG] →
-            </a>
+          <div className="text-center text-blue-400 font-mono text-sm">
+            <span className="text-green-400">$</span> Logo color system ready for customization
           </div>
         </div>
       </div>
@@ -153,4 +104,17 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+// Función helper para obtener las clases de color de Tailwind
+function getColorClass(color: string): string {
+  switch (color) {
+    case 'green': return 'text-green-400';
+    case 'blue': return 'text-blue-400';
+    case 'red': return 'text-red-400';
+    case 'yellow': return 'text-yellow-400';
+    case 'purple': return 'text-purple-400';
+    case 'cyan': return 'text-cyan-400';
+    default: return 'text-green-400';
+  }
 }

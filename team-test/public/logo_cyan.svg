@@ -1,0 +1,12 @@
+<svg width="400" height="200" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo del logo -->
+  <rect width="400" height="200" rx="16" fill="#22d3ee" opacity="0.1"/>
+  
+  <!-- Símbolo principal más grande -->
+  <circle cx="80" cy="100" r="40" stroke="#22d3ee" stroke-width="4" fill="none"/>
+  <path d="M80 60 L80 140 M40 100 L120 100" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Texto del logo más grande -->
+  <text x="160" y="120" font-family="monospace" font-size="48" font-weight="bold" fill="#22d3ee">GENERIC</text>
+  <text x="160" y="160" font-family="monospace" font-size="24" fill="#22d3ee" opacity="0.7">LOGO</text>
+</svg>
